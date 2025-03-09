@@ -135,7 +135,6 @@ static int cmd_x(char *args){
     }
     printf("\n");
   }
-  vaddr_read(addr,1);
   return 0;
 }
 
