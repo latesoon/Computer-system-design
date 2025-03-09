@@ -94,11 +94,11 @@ static int cmd_si(char *args) {
 static int cmd_info(char *args) {
   char *arg = strtok(args, " ");
   if(arg == NULL){
-    printf("\033[1;31mMissing arg in cmd_info!\033[0m");
+    printf("\033[1;31mMissing arg in cmd_info!\033[0m\n");
     return 0;
   }
   if(strcmp(strtok(args," "),"r")){
-    printf("\033[1;31mInvalid arg in cmd_info!\033[0m");
+    printf("\033[1;31mInvalid arg in cmd_info!\033[0m\n");
     return 0;
   }
   printf("Registers info:\n");
