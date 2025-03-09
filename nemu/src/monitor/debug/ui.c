@@ -80,7 +80,7 @@ static int cmd_help(char *args) {
 }
 
 static int cmd_si(char *args) {
-  uint64_t step = 0;
+  uint64_t step = 1;
   char *arg = strtok(args, " ");
   if(arg != NULL)
     step = atoi(arg);
