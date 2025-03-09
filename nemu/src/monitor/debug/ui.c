@@ -40,6 +40,8 @@ static int cmd_help(char *args);
 
 static int cmd_si(char *args);
 
+static int cmd_info(char *args);
+
 static struct {
   char *name;
   char *description;
@@ -50,7 +52,8 @@ static struct {
   { "q", "Exit NEMU", cmd_q },
 
   /* TODO: Add more commands */
-  { "si", "Step instruction by 1 or n", cmd_si }
+  { "si", "Step instruction by 1 or n", cmd_si },
+  { "info", "Register info", cmd_info}
 
 };
 
@@ -85,6 +88,25 @@ static int cmd_si(char *args) {
   if(arg != NULL)
     step = atoi(arg);
   cpu_exec(step);
+  return 0;
+}
+
+static int cmd_info(char *args) {
+  char *arg = strtok(args, " ");
+  if(arg == NULL){
+    printf("\033[1;31mMissing arg in cmd_info!\033[0m");
+    return 0;
+  }
+  if(strcmp(strtok(args," "),"r")){
+    printf("\033[1;31mInvalid arg in cmd_info!\033[0m");
+    return 0;
+  }
+  printf("Registers info:\n");
+  printf("EAX:0x%08X ECX:0x%08X\n",cpu.eax,cpu.ecx);
+  printf("EDX:0x%08X EBX:0x%08X\n",cpu.edx,cpu.ebx);
+  printf("ESP:0x%08X EBP:0x%08X\n",cpu.esp,cpu.ebp);
+  printf("ESI:0x%08X EDI:0x%08X\n",cpu.esi,cpu.edi);
+  printf("EIP:0x%08X\n",cpu.eip);
   return 0;
 }
 
