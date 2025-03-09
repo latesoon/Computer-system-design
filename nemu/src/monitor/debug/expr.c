@@ -7,9 +7,11 @@
 #include <regex.h>
 
 enum {
-  TK_NOTYPE = 256, TK_EQ
+  TK_NOTYPE = 256, TK_EQ,
 
   /* TODO: Add more token types */
+
+  TK_NEQ,TK_AND,TK_OR,TK_NUM,TK_HEX,TK_REG,TK_UNARYPLUS,TK_UNARYSUB,TK_DEREF
 
 };
 
@@ -24,7 +26,20 @@ static struct rule {
 
   {" +", TK_NOTYPE},    // spaces
   {"\\+", '+'},         // plus
-  {"==", TK_EQ}         // equal
+  {"==", TK_EQ},        // equal
+
+  {"\\-", '-'},
+  {"\\*", '*'},
+  {"/", '/'},
+  {"\\(", '('},
+  {"\\)", ')'},
+  {"!=",TK_NEQ},
+  {"&&",TK_AND},
+  {"\\|\\|",TK_OR},
+  {"\\$[a-zA-Z0-9]+",TK_REG},
+  {"0[xX][0-9a-fA-F]+",TK_HEX},
+  {"0|[1-9][0-9]*",TK_NUM},
+  {"!",'!'}
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -80,7 +95,46 @@ static bool make_token(char *e) {
          */
 
         switch (rules[i].token_type) {
-          default: TODO();
+          case TK_NOTYPE:
+            break;
+          case '+':
+            if(!nr_token || (tokens[nr_token-1].type !=')' && tokens[nr_token-1].type != TK_NUM 
+              && tokens[nr_token-1].type != TK_HEX && tokens[nr_token-1].type != TK_REG)){
+              tokens[nr_token].type = TK_UNARYPLUS; 
+            }
+            else{
+              tokens[nr_token].type = rules[i].token_type;
+            }
+            nr_token++;
+            break;
+          case '-':
+            if(!nr_token || (tokens[nr_token-1].type !=')' && tokens[nr_token-1].type != TK_NUM 
+              && tokens[nr_token-1].type != TK_HEX && tokens[nr_token-1].type != TK_REG)){
+              tokens[nr_token].type = TK_UNARYSUB; 
+            }
+            else{
+              tokens[nr_token].type = rules[i].token_type;
+            }
+            nr_token++;
+            break;
+          case '*':
+            if(!nr_token || (tokens[nr_token-1].type !=')' && tokens[nr_token-1].type != TK_NUM 
+              && tokens[nr_token-1].type != TK_HEX && tokens[nr_token-1].type != TK_REG)){
+              tokens[nr_token].type = TK_DEREF; 
+            }
+            else{
+              tokens[nr_token].type = rules[i].token_type;
+            }
+            nr_token++;
+            break;
+          case TK_HEX:
+          case TK_NUM:
+          case TK_REG:
+            strncpy(tokens[nr_token].str, substr_start, substr_len);
+            tokens[nr_token].str[substr_len]='\0';
+          default: //TODO();
+            tokens[nr_token].type = rules[i].token_type;
+            nr_token++;
         }
 
         break;
