@@ -5,6 +5,7 @@
  */
 #include <sys/types.h>
 #include <regex.h>
+#include <stdlib.h>
 
 enum {
   TK_NOTYPE = 256, TK_EQ,
@@ -163,8 +164,131 @@ static bool make_token(char *e) {
   return true;
 }
 
-uint32_t eval(uint32_t start, uint32_t end, bool* succ){
-  return 0;
+bool check_par(uint32_t s,uint32_t e){
+  if(tokens[s].type !='(' ||tokens[e].type !=')')
+    return false;
+  int cnt = 0;
+  for(int now = s; now <= e ; now++){
+    if(tokens[now].type =='(')
+      cnt++;
+    else if(tokens[now].type ==')'){
+      cnt--;
+      if(cnt == 0 && now!= e)
+        return false;
+    }
+  }
+  if(cnt) return false;
+  return true;
+}
+
+uint32_t eval(uint32_t s, uint32_t e, bool* succ){
+  if(!(*succ))
+    return 0;
+  if(s > e){
+    *succ = false;
+    return 0;
+  }
+  else if(s == e){
+    char reg[4];
+    switch(tokens[s].type){
+      case TK_HEX:
+        return strtoul(tokens[s].str,NULL,16);
+      case TK_NUM:
+        return strtoul(tokens[s].str,NULL,10);
+      case TK_REG:
+        for(int i=1;i<=4;i++){
+          if(tokens[s].str[i] >= 'A' && tokens[s].str[i] <= 'Z')
+            reg[i-1] = tokens[s].str[i] + 32;
+          else if(tokens[s].str[i] >= 'a' && tokens[s].str[i] <= 'z')
+            reg[i-1] = tokens[s].str[i];
+          else if(tokens[s].str[i] == '\0'){
+            reg[i-1] = tokens[s].str[i];
+            break;
+          }
+          else{
+            *succ = false;
+            return 0; 
+          }
+        }
+        for(int i=0;i<8;i++){
+          if(!strcmp(reg,regsl[i]))
+            return cpu.gpr[i]._32;
+          if(!strcmp(reg,regsw[i]))
+            return cpu.gpr[i]._16;
+          if(!strcmp(reg,regsb[i]))
+            return cpu.gpr[i%4]._8[i/4];
+        }
+        if(!strcmp(reg,"eip"))
+          return cpu.eip;
+      //all not match, also into default
+      default:
+        *succ = false;
+        return 0; 
+    }
+  }
+  else if(check_par(s,e))
+    return eval(s+1,e-1,succ);
+  else{
+    int par = 0;
+    int mon = -1;
+    for(int now=s;now<=e;now++){
+      switch(tokens[now].type){
+        case '(':
+          par++;
+          break;
+        case ')':
+          par--;
+          break;
+        default:
+          if(par)
+            break;
+          if(mon == -1 || (priority[tokens[now].type] >= priority[tokens[mon].type] && priority[tokens[now].type] >3)
+            || priority[tokens[now].type] > priority[tokens[mon].type])
+            mon = now;
+      }
+    }
+    if(priority[tokens[mon].type] == 3){
+      uint32_t val = eval(mon+1,e,succ);
+      switch(tokens[mon].type){
+        case TK_UNARYPLUS: 
+          return val;
+        case TK_UNARYSUB: 
+          return -val;
+        case '!': 
+          return !val;
+        case TK_DEREF: 
+          return vaddr_read(val,4);
+        default:
+          *succ = false;
+          return 0; 
+      }
+    }
+    else{
+      uint32_t val1 = eval(s,mon-1,succ);
+      uint32_t val2 = eval(mon+1,e,succ);
+      switch(tokens[mon].type){
+        case TK_AND:
+          return val1 && val2;
+        case TK_OR:
+          return val1 || val2;
+        case TK_EQ:
+          return val1 == val2;
+        case TK_NEQ:
+          return val1 != val2;
+        case '+':
+          return val1 + val2;
+        case '-':
+          return val1 - val2;
+        case '*':
+          return val1 * val2;
+        case '/':
+          return val1 / val2;
+        default:
+          *succ = false;
+          return 0; 
+      }
+    } 
+  }
 }
 
 uint32_t expr(char *e, bool *success) {
