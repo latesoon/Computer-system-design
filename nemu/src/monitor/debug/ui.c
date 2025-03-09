@@ -42,6 +42,8 @@ static int cmd_si(char *args);
 
 static int cmd_info(char *args);
 
+static int cmd_x(char *args);
+
 static struct {
   char *name;
   char *description;
@@ -53,8 +55,8 @@ static struct {
 
   /* TODO: Add more commands */
   { "si", "Step instruction by 1 or n", cmd_si },
-  { "info", "Register info", cmd_info}
-
+  { "info", "Register info", cmd_info },
+  { "x", "Get continous data from address", cmd_x}
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
@@ -107,6 +109,10 @@ static int cmd_info(char *args) {
   printf("ESP:0x%08X EBP:0x%08X\n",cpu.esp,cpu.ebp);
   printf("ESI:0x%08X EDI:0x%08X\n",cpu.esi,cpu.edi);
   printf("EIP:0x%08X\n",cpu.eip);
+  return 0;
+}
+
+static int cmd_x(char *args){
   return 0;
 }
 
