@@ -44,6 +44,8 @@ static int cmd_info(char *args);
 
 static int cmd_x(char *args);
 
+static int cmd_p(char *args);
+
 static struct {
   char *name;
   char *description;
@@ -56,7 +58,8 @@ static struct {
   /* TODO: Add more commands */
   { "si", "Step instruction by 1 or n", cmd_si },
   { "info", "Register info", cmd_info },
-  { "x", "Get continous data from address", cmd_x }
+  { "x", "Get continous data from address", cmd_x },
+  { "p", "Calculate expr", cmd_p }
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
@@ -134,6 +137,21 @@ static int cmd_x(char *args){
       addr++,cnt--,len--;
     }
     printf("\n");
+  }
+  return 0;
+}
+
+static int cmd_p(char *args){
+  if(args == NULL){
+    printf("\033[1;31mMissing arg in cmd p!\033[0m\n");
+    return 0;
+  }
+  bool succ = true;
+  uint32_t val = expr(args, &succ);
+  if(succ){
+    printf("The answer is:\n");
+    printf("Base10:%d\n",val);
+    printf("Base16:0x%08X\n",val);
   }
   return 0;
 }

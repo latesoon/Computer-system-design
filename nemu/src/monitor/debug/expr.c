@@ -71,7 +71,20 @@ typedef struct token {
 Token tokens[32];
 int nr_token;
 
+int priority[300];
+
 static bool make_token(char *e) {
+
+  priority[TK_NUM] = priority[TK_HEX] = priority[TK_REG] = 1;
+  priority['('] = priority[')'] = 2;
+  priority[TK_UNARYPLUS] = priority[TK_UNARYSUB] = priority['!'] = priority[TK_DEREF] = 3;
+  priority['*'] = priority['/'] = 4;
+  priority['+'] = priority['-'] = 5;
+  priority[TK_EQ] = priority[TK_NEQ] = 6;
+  priority[TK_AND] = 7;
+  priority[TK_OR] = 8;
+  
+
   int position = 0;
   int i;
   regmatch_t pmatch;
@@ -150,6 +163,10 @@ static bool make_token(char *e) {
   return true;
 }
 
+uint32_t eval(uint32_t start, uint32_t end, bool* succ){
+  return 0;
+}
+
 uint32_t expr(char *e, bool *success) {
   if (!make_token(e)) {
     *success = false;
@@ -157,7 +174,7 @@ uint32_t expr(char *e, bool *success) {
   }
 
   /* TODO: Insert codes to evaluate the expression. */
-  TODO();
-
-  return 0;
+  //TODO();
+  return eval(0,nr_token-1,success);
+  //return 0;
 }
