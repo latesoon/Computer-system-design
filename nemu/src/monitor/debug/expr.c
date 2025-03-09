@@ -190,8 +190,8 @@ uint32_t eval(uint32_t s, uint32_t e, bool* succ){
   }
   else if(s == e){
     char reg[4];
+    printf("!!!");
     switch(tokens[s].type){
-      printf("!!!");
       case TK_HEX:
         return strtoul(tokens[s].str,NULL,16);
       case TK_NUM:
