@@ -130,7 +130,7 @@ static int cmd_x(char *args){
   uint64_t len = atoi(arg1);
   //uint32_t addr = strtoul(arg2,NULL,16);
   bool succ = true;
-  uint32_t addr = expr(args, &succ);
+  uint32_t addr = expr(arg2, &succ);
   if(!succ){
     printf("\033[1;31mInvalid arg2 in cmd x!\033[0m\n");
     return 0;
