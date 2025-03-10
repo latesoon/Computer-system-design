@@ -247,6 +247,10 @@ uint32_t eval(uint32_t s, uint32_t e, bool* succ){
             mon = now;
       }
     }
+    if(par){
+      *succ = false;
+      return 0; 
+    }
     if(priority[tokens[mon].type] == 3){
       uint32_t val = eval(mon+1,e,succ);
       switch(tokens[mon].type){
