@@ -117,7 +117,8 @@ static int cmd_info(char *args) {
 
 static int cmd_x(char *args){
   char *arg1 = strtok(args, " ");
-  char *arg2 = strtok(NULL, " ");
+  //char *arg2 = strtok(NULL, " ");
+  char *arg2 = args + strlen(arg1) + 1;
   if(arg1 == NULL || arg2 == NULL){
     printf("\033[1;31mMissing arg in cmd x!\033[0m\n");
     return 0;
@@ -127,7 +128,13 @@ static int cmd_x(char *args){
     return 0;
   }
   uint64_t len = atoi(arg1);
-  uint32_t addr = strtoul(arg2,NULL,16);
+  //uint32_t addr = strtoul(arg2,NULL,16);
+  bool succ = true;
+  uint32_t addr = expr(args, &succ);
+  if(!succ){
+    printf("\033[1;31mInvalid arg2 in cmd x!\033[0m\n");
+    return 0;
+  }
   printf("Address     Data\n");
   while(len){
     int cnt = 8;
@@ -148,11 +155,13 @@ static int cmd_p(char *args){
   }
   bool succ = true;
   uint32_t val = expr(args, &succ);
-  if(succ){
-    printf("The answer is:\n");
-    printf("Base10:%d\n",val);
-    printf("Base16:0x%08X\n",val);
+  if(!succ){
+    printf("\033[1;31mInvalid arg in cmd p!\033[0m\n");
+    return 0;
   }
+  printf("The answer is:\n");
+  printf("Base10:%d\n",val);
+  printf("Base16:0x%08X\n",val);
   return 0;
 }
 
