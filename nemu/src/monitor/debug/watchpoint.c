@@ -122,6 +122,7 @@ bool wp_check(){
         printf("No Stored_value           Now_value              Expr\n");
       }
       printf("%2d %010d(0x%08X) %010d(0x%08X) %s\n",temp->NO,temp->val,temp->val,num,num,temp->exp);
+      temp->val = num;
     }
     temp = temp -> next;
   }
