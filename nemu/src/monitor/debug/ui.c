@@ -51,13 +51,13 @@ static int cmd_d(char *args){
   if(arg != NULL)
     wp_del(atoi(arg));
   else
-    printf("\033[1;31mMissing arg in cmd p!\033[0m\n");
+    printf("\033[1;31mMissing arg in cmd d!\033[0m\n");
   return 0;
 }
 
 static int cmd_w(char *args){
   if(args == NULL){
-    printf("\033[1;31mMissing arg in cmd p!\033[0m\n");
+    printf("\033[1;31mMissing arg in cmd w!\033[0m\n");
     return 0;
   }
   wp_add(args);
