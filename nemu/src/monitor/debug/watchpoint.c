@@ -91,11 +91,12 @@ void free_wp(WP* wp){
   if(free_ == NULL){
     wp->next = NULL;
     free_ = wp;
+    return;
   }
   if(wp->NO < free_->NO){
-    printf("!!!");
     wp->next = free_;
     free_ = wp;
+    return;
   }
   WP* temp = free_;
   while(temp != NULL){
