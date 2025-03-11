@@ -152,6 +152,7 @@ void wp_add(char* arg){
   printf("Success! New watchpoint info:\n");
   printf("No Stored_value           Expr\n");
   printf("%2d %010d(0x%08X) %s\n",new->NO,new->val,new->val,new->exp);
+  wp_debug();
 }
 
 void wp_del(uint32_t no){
@@ -172,4 +173,5 @@ void wp_del(uint32_t no){
   }
   if(!success)
     printf("\033[1;31mInvalid arg in watchpoint deletion!\033[0m\n");
+  wp_debug();
 }
