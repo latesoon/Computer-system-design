@@ -89,6 +89,7 @@ void free_wp(WP* wp){
     free_ = wp;
   }
   if(wp->NO < free_->NO){
+    printf("!!!");
     wp->next = free_;
     free_ = wp;
   }
