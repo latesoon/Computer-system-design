@@ -46,6 +46,26 @@ static int cmd_x(char *args);
 
 static int cmd_p(char *args);
 
+static int cmd_d(char *args){
+  char *arg = strtok(args, " ");
+  if(arg != NULL)
+    wp_del(atoi(arg));
+  else
+    printf("\033[1;31mMissing arg in cmd p!\033[0m\n");
+  return 0;
+}
+
+static int cmd_w(char *args){
+  if(args == NULL){
+    printf("\033[1;31mMissing arg in cmd p!\033[0m\n");
+    return 0;
+  }
+  wp_add(args);
+  return 0;
+}
+
+
+
 static struct {
   char *name;
   char *description;
@@ -57,9 +77,11 @@ static struct {
 
   /* TODO: Add more commands */
   { "si", "Step instruction by 1 or n", cmd_si },
-  { "info", "Register info", cmd_info },
+  { "info", "Register info / Watchpoint info", cmd_info },
   { "x", "Get continous data from address", cmd_x },
-  { "p", "Calculate expr", cmd_p }
+  { "p", "Calculate expr", cmd_p },
+  { "w", "Add watchpoint", cmd_w },
+  { "d", "Delete watchpoint", cmd_d }
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
@@ -102,16 +124,21 @@ static int cmd_info(char *args) {
     printf("\033[1;31mMissing arg in cmd info!\033[0m\n");
     return 0;
   }
-  if(strcmp(strtok(args," "),"r")){
-    printf("\033[1;31mInvalid arg in cmd info!\033[0m\n");
+  if(!strcmp(strtok(args," "),"r")){
+    printf("Registers info:\n");
+    printf("EAX:0x%08X ECX:0x%08X\n",cpu.eax,cpu.ecx);
+    printf("EDX:0x%08X EBX:0x%08X\n",cpu.edx,cpu.ebx);
+    printf("ESP:0x%08X EBP:0x%08X\n",cpu.esp,cpu.ebp);
+    printf("ESI:0x%08X EDI:0x%08X\n",cpu.esi,cpu.edi);
+    printf("EIP:0x%08X\n",cpu.eip);
     return 0;
   }
-  printf("Registers info:\n");
-  printf("EAX:0x%08X ECX:0x%08X\n",cpu.eax,cpu.ecx);
-  printf("EDX:0x%08X EBX:0x%08X\n",cpu.edx,cpu.ebx);
-  printf("ESP:0x%08X EBP:0x%08X\n",cpu.esp,cpu.ebp);
-  printf("ESI:0x%08X EDI:0x%08X\n",cpu.esi,cpu.edi);
-  printf("EIP:0x%08X\n",cpu.eip);
+  if(!strcmp(strtok(args," "),"w")){
+    printf("Watchpoints info:\n");
+    wp_print();
+    return 0;
+  }
+  printf("\033[1;31mInvalid arg in cmd info!\033[0m\n");
   return 0;
 }
 
