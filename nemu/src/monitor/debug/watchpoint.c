@@ -23,13 +23,15 @@ void init_wp_pool() {
 void wp_debug(){
   printf("use:");
   WP* temp = head;
-  while(temp!= NULL){
+  int cnt = 0;
+  while(temp!= NULL || cnt++ < 50){
     printf("%d ",temp->NO);
     temp = temp->next;
   }
   printf("\nfree:");
+  cnt = 0;
   temp = free_;
-  while(temp!= NULL){
+  while(temp!= NULL || cnt++ < 50){
     printf("%d ",temp->NO);
     temp = temp->next;
   }
