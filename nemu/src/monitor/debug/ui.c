@@ -131,6 +131,8 @@ static int cmd_info(char *args) {
     printf("ESP:0x%08X EBP:0x%08X\n",cpu.esp,cpu.ebp);
     printf("ESI:0x%08X EDI:0x%08X\n",cpu.esi,cpu.edi);
     printf("EIP:0x%08X\n",cpu.eip);
+    printf("EFLAGS:\n");
+    printf("CF:%d ZF:%d SF:%d IF:%d OF:%d",cpu.CF,cpu.ZF,cpu.SF,cpu.IF,cpu.OF);
     return 0;
   }
   if(!strcmp(strtok(args," "),"w")){
