@@ -132,7 +132,7 @@ static int cmd_info(char *args) {
     printf("ESI:0x%08X EDI:0x%08X\n",cpu.esi,cpu.edi);
     printf("EIP:0x%08X\n",cpu.eip);
     printf("EFLAGS:\n");
-    printf("CF:%d ZF:%d SF:%d IF:%d OF:%d",cpu.CF,cpu.ZF,cpu.SF,cpu.IF,cpu.OF);
+    printf("CF:%d ZF:%d SF:%d IF:%d OF:%d\n",cpu.CF,cpu.ZF,cpu.SF,cpu.IF,cpu.OF);
     return 0;
   }
   if(!strcmp(strtok(args," "),"w")){
