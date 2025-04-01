@@ -32,7 +32,7 @@ typedef struct {
 
   vaddr_t eip;
 
-  typedef union {
+  union {
     struct {
       uint32_t CF:1, :5, ZF:1, SF:1, :1, IF:1, :1, OF:1, :20;
     };
