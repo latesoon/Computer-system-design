@@ -40,3 +40,4 @@ make_EHelper(imul2);
 make_EHelper(div);
 make_EHelper(idiv);
 make_EHelper(cltd);
+make_EHelper(leave);
