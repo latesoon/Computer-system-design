@@ -41,3 +41,5 @@ make_EHelper(div);
 make_EHelper(idiv);
 make_EHelper(cltd);
 make_EHelper(leave);
+make_EHelper(call_rm);
+make_EHelper(jmp_rm);
