@@ -21,3 +21,6 @@ make_EHelper(adc);
 make_EHelper(sbb);
 make_EHelper(and);
 make_EHelper(cmp);
+make_EHelper(inc);
+make_EHelper(dec);
+

@@ -59,13 +59,31 @@ make_EHelper(cmp) {
 }
 
 make_EHelper(inc) {
-  TODO();
+  //TODO();
+  rtl_addi(&t2, &id_dest->val, 1);
+  rtl_msb(&t0, &id_dest->val, id_dest->width);
+  operand_write(id_dest, &t2);
+  rtl_update_ZFSF(&t2, id_dest->width);
+
+  rtl_msb(&t1, &t2, id_dest->width);
+  rtl_xori(&t0, &t0, 1);
+  rtl_and(&t1, &t0, &t1);
+  rtl_set_OF(&t1);
 
   print_asm_template1(inc);
 }
 
 make_EHelper(dec) {
-  TODO();
+  //TODO();
+  rtl_subi(&t2, &id_dest->val, 1);
+  rtl_msb(&t0, &id_dest->val, id_dest->width);
+  operand_write(id_dest, &t2);
+  rtl_update_ZFSF(&t2, id_dest->width);
+
+  rtl_msb(&t1, &t2, id_dest->width);
+  rtl_xori(&t1, &t1, 1);
+  rtl_and(&t1, &t0, &t1);
+  rtl_set_OF(&t1);
 
   print_asm_template1(dec);
 }
