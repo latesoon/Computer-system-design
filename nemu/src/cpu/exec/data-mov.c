@@ -42,12 +42,12 @@ make_EHelper(cltd) {
   if (decoding.is_operand_size_16) {
     //TODO();
     rtl_msb(&t0,&cpu.eax,2);
-    cpu.gpr[2]._16 = t0 ? 0 : 0xFFFF;
+    cpu.gpr[2]._16 = t0 ? 0xFFFF : 0;
   }
   else {
     //TODO();
     rtl_msb(&t0,&cpu.eax,4);
-    cpu.edx = t0 ? 0 : 0xFFFFFFFF;
+    cpu.edx = t0 ? 0xFFFFFFFF : 0;
   }
 
   print_asm(decoding.is_operand_size_16 ? "cwtl" : "cltd");
