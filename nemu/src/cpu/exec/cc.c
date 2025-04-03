@@ -24,12 +24,12 @@ void rtl_setcc(rtlreg_t* dest, uint8_t subcode) {
       break;
     case CC_S: rtl_get_SF(dest);break;
     case CC_L: 
-      rtl_get_CF(&t0);
+      rtl_get_OF(&t0);
       rtl_get_SF(&t1);
       rtl_xor(dest,&t0,&t1);
       break;
     case CC_LE: 
-      rtl_get_CF(&t0);
+      rtl_get_OF(&t0);
       rtl_get_SF(&t1);
       rtl_get_ZF(&t2);
       rtl_xor(&t0,&t0,&t1);
