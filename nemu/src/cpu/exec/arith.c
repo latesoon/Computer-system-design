@@ -44,7 +44,7 @@ make_EHelper(cmp) {
 
   rtl_sub(&t2, &id_dest->val, &id_src->val);
 
-  printf("%x %x %x",t2,id_dest->val,id_src->val);
+  //printf("%x %x %x",t2,id_dest->val,id_src->val);
 
   rtl_sltu(&t3, &id_dest->val, &t2);
   rtl_set_CF(&t3); 
