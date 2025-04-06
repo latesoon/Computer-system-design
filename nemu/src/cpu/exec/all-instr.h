@@ -6,14 +6,14 @@ make_EHelper(operand_size);
 
 make_EHelper(inv);
 make_EHelper(nemu_trap);
-
+//PA2.1
 make_EHelper(call);
 make_EHelper(push);
 make_EHelper(pop);
 make_EHelper(sub);
 make_EHelper(xor);
 make_EHelper(ret);
-
+//PA2.2
 make_EHelper(lea);
 make_EHelper(add);
 make_EHelper(or);
@@ -43,6 +43,7 @@ make_EHelper(cltd);
 make_EHelper(leave);
 make_EHelper(call_rm);
 make_EHelper(jmp_rm);
-
+//PA2.3
 make_EHelper(in);
 make_EHelper(out);
+make_EHelper(cwtl);
