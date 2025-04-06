@@ -32,6 +32,12 @@ void _draw_rect(const uint32_t *pixels, int x, int y, int w, int h) {
 void _draw_sync() {
 }
 
+#define KEYBOARD_DATA 0x60
+#define KEYBOARD_STATUS 0x64
+
 int _read_key() {
-  return _KEY_NONE;
+  if(inb(KEYBOARD_STATUS))
+    return inl(KEYBOARD_DATA);
+  else
+    return _KEY_NONE;
 }
