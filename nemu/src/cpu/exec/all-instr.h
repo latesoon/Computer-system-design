@@ -52,3 +52,4 @@ make_EHelper(rol);
 //PA3.1
 make_EHelper(lidt);
 make_EHelper(int);
+make_EHelper(pusha);
