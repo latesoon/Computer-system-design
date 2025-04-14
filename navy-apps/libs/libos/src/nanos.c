@@ -34,8 +34,13 @@ extern char _end;
 static intptr_t pb = (intptr_t)& _end;
 
 void *_sbrk(intptr_t increment){
-
-  return (void *)-1;
+  intptr_t update_pb = pb + increment;
+  if(!_syscall_(SYS_brk,update_pb,0,0)){
+    pb = update_pb;
+    return (void* )(update_pb - increment);
+  }
+  else
+    return (void *)-1;
 }
 
 int _read(int fd, void *buf, size_t count) {
