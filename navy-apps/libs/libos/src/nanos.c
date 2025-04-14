@@ -37,7 +37,7 @@ void *_sbrk(intptr_t increment){
   intptr_t update_pb = pb + increment;
   if(!_syscall_(SYS_brk,update_pb,0,0)){
     pb = update_pb;
-    return (void* )(update_pb - increment);
+    return (void *)(update_pb - increment);
   }
   else
     return (void *)-1;
