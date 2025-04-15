@@ -30,3 +30,13 @@ static inline size_t fs_filesz(int fd){
   return file_table[fd].size;
 }
 
+int fs_open(const char* pathname, int flags, int mode){
+  for(int fd = 0; fd < NR_FILES; fd++){
+    if(!strcmp(pathname,file_table[fd].name))
+      return fd;
+  }
+  assert(0);//should not reach here
+  return -1;
+}
+
+
