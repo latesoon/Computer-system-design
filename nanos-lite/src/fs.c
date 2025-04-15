@@ -89,4 +89,14 @@ off_t fs_lseek(int fd, off_t offset, int whence){
   return update_offset3(fd, offset, whence);
 }
 
+ssize_t fs_write(int fd, const void* buf, size_t len){
+  switch(fd){
+    case FD_STDIN:
+      break;
+    case FD_STDOUT:
+    case FD_STDERR:
+      break;
 
+  }
+  return len;
+}
