@@ -38,8 +38,19 @@ static inline off_t fs_offset(int fd){
   return file_table[fd].open_offset;
 }
 
-static inline void update_offset(int fd, size_t len){
+static inline off_t update_offset3(int fd, int len, int mode){
+  if(mode == SEEK_SET)
+    file_table[fd].open_offset = 0;
+  else if(mode == SEEK_END)
+    file_table[fd].open_offset = file_table[fd].size;
   file_table[fd].open_offset += len;
+  file_table[fd].open_offset = ((file_table[fd].open_offset > len) ? len : file_table[fd].open_offset);
+  file_table[fd].open_offset = ((file_table[fd].open_offset < 0) ? 0 : file_table[fd].open_offset);
+  return file_table[fd].open_offset;
+}
+
+static inline void update_offset(int fd, int len){
+  update_offset3(fd, len, SEEK_CUR);
 }
 
 int fs_open(const char* pathname, int flags, int mode){
@@ -71,4 +82,8 @@ ssize_t fs_read(int fd, void* buf, size_t len){
 
 int fs_close(int fd){
   return 0;
+}
+
+off_t fs_lseek(int fd, off_t offset, int whence){
+  return update_offset3(fd, offset, whence);
 }
