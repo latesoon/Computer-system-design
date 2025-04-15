@@ -44,6 +44,7 @@ static inline off_t update_offset3(int fd, int len, int mode){
     file_table[fd].open_offset = 0;
   else if(mode == SEEK_END)
     file_table[fd].open_offset = file_table[fd].size;
+  Log(" newoffset %d\n",fs_offset(fd));
   file_table[fd].open_offset += len;
   file_table[fd].open_offset = ((file_table[fd].open_offset > len) ? len : file_table[fd].open_offset);
   file_table[fd].open_offset = ((file_table[fd].open_offset < 0) ? 0 : file_table[fd].open_offset);
