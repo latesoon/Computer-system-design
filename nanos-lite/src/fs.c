@@ -97,6 +97,7 @@ off_t fs_lseek(int fd, off_t offset, int whence){
 void ramdisk_write(const void *buf, off_t offset, size_t len);
 
 ssize_t fs_write(int fd, const void* buf, size_t len){
+  Log("%d:size %d,len %d,offset %d",fd,fs_filesz(fd),len,fs_offset(fd));
   switch(fd){
     case FD_STDIN:
       break;
@@ -112,5 +113,6 @@ ssize_t fs_write(int fd, const void* buf, size_t len){
       ramdisk_write(buf, tot_offset(fd), len);
       update_offset(fd, len);
   }
+  Log(" newoffset %d\n",fs_offset(fd));
   return len;
 }
