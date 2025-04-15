@@ -54,6 +54,7 @@ static inline void update_offset(int fd, int len){
 }
 
 int fs_open(const char* pathname, int flags, int mode){
+  Log("%s %d\n",pathname,NR_FILES);
   for(int fd = 0; fd < NR_FILES; fd++){
     if(!strcmp(pathname,file_table[fd].name))
       return fd;
