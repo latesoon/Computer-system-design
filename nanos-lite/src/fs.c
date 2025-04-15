@@ -68,7 +68,7 @@ int fs_open(const char* pathname, int flags, int mode){
 void ramdisk_read(void *buf, off_t offset, size_t len);
 
 ssize_t fs_read(int fd, void* buf, size_t len){
-  Log("%d:size %d,len %d,offset %d",fs_filesz(fd),fd,len,fs_offset(fd));
+  Log("%d:size %d,len %d,offset %d",fd,fs_filesz(fd),len,fs_offset(fd));
   switch(fd){
     case FD_STDIN:
     case FD_STDOUT:
