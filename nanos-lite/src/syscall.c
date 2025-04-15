@@ -29,6 +29,7 @@ _RegSet* do_syscall(_RegSet *r) {
       //PA3.1
       //Log("SYS_write!");
       //SYSCALL_ARG1(r) = do_syswrite(((int)(a[1])), ((char*)(a[2])),((size_t)(a[3])));
+      //break;
 
       //PA3.2
       SYSCALL_ARG1(r) = fs_write(((int)(a[1])), ((char*)(a[2])),((size_t)(a[3])));
