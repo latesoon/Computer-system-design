@@ -39,7 +39,7 @@ static inline off_t fs_offset(int fd){
 }
 
 static inline off_t update_offset3(int fd, int len, int mode){
-  Log("fd%d len%d mode%d",fd,len,mode);
+  Log("fd%d len%d mode%d size%d",fd,len,mode,fs_filesz(fd));
   if(mode == SEEK_SET)
     file_table[fd].open_offset = 0;
   else if(mode == SEEK_END)
