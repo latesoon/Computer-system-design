@@ -30,6 +30,18 @@ static inline size_t fs_filesz(int fd){
   return file_table[fd].size;
 }
 
+static inline off_t tot_offset(int fd){
+  return file_table[fd].disk_offset + file_table[fd].open_offset;
+}
+
+static inline off_t fs_offset(int fd){
+  return file_table[fd].open_offset;
+}
+
+static inline void update_offset(int fd, size_t len){
+  file_table[fd].open_offset += len;
+}
+
 int fs_open(const char* pathname, int flags, int mode){
   for(int fd = 0; fd < NR_FILES; fd++){
     if(!strcmp(pathname,file_table[fd].name))
@@ -37,6 +49,24 @@ int fs_open(const char* pathname, int flags, int mode){
   }
   assert(0);//should not reach here
   return -1;
+}
+
+void ramdisk_read(void *buf, off_t offset, size_t len);
+
+ssize_t fs_read(int fd, void* buf, size_t len){
+  switch(fd){
+    case FD_STDIN:
+    case FD_STDOUT:
+    case FD_STDERR:
+      break;
+    default:
+      len = (fs_filesz(fd) - fs_offset(fd) >= len) ? len : (fs_filesz(fd) - fs_offset(fd));
+      if(len <= 0) 
+        return 0;
+      ramdisk_read(buf, tot_offset(fd), len);
+      update_offset(fd, len);
+  }
+  return len;
 }
 
 
