@@ -39,18 +39,18 @@ static inline off_t fs_offset(int fd){
 }
 
 static inline off_t update_offset3(int fd, int len, int mode){
-  Log("fd%d len%d mode%d size%d",fd,len,mode,fs_filesz(fd));
+  //Log("fd%d len%d mode%d size%d",fd,len,mode,fs_filesz(fd));
   if(mode == SEEK_SET)
     file_table[fd].open_offset = 0;
   else if(mode == SEEK_END)
     file_table[fd].open_offset = file_table[fd].size;
-  Log(" newoffset %d\n",fs_offset(fd));
+  //Log(" newoffset %d\n",fs_offset(fd));
   file_table[fd].open_offset += len;
-  Log(" newoffset %d\n",fs_offset(fd));
+  //Log(" newoffset %d\n",fs_offset(fd));
   file_table[fd].open_offset = ((file_table[fd].open_offset > file_table[fd].size) ? file_table[fd].size : file_table[fd].open_offset);
-  Log(" newoffset %d\n",fs_offset(fd));
+  //Log(" newoffset %d\n",fs_offset(fd));
   file_table[fd].open_offset = ((file_table[fd].open_offset < 0) ? 0 : file_table[fd].open_offset);
-  Log(" newoffset %d\n",fs_offset(fd));
+  //Log(" newoffset %d\n",fs_offset(fd));
   return file_table[fd].open_offset;
 }
 
@@ -71,7 +71,7 @@ int fs_open(const char* pathname, int flags, int mode){
 void ramdisk_read(void *buf, off_t offset, size_t len);
 
 ssize_t fs_read(int fd, void* buf, size_t len){
-  Log("%d:size %d,len %d,offset %d",fd,fs_filesz(fd),len,fs_offset(fd));
+  //Log("%d:size %d,len %d,offset %d",fd,fs_filesz(fd),len,fs_offset(fd));
   switch(fd){
     case FD_STDIN:
     case FD_STDOUT:
@@ -84,7 +84,7 @@ ssize_t fs_read(int fd, void* buf, size_t len){
       ramdisk_read(buf, tot_offset(fd), len);
       update_offset(fd, len);
   }
-  Log(" newoffset %d\n",fs_offset(fd));
+  //Log(" newoffset %d\n",fs_offset(fd));
   return len;
 }
 
@@ -100,7 +100,7 @@ off_t fs_lseek(int fd, off_t offset, int whence){
 void ramdisk_write(const void *buf, off_t offset, size_t len);
 
 ssize_t fs_write(int fd, const void* buf, size_t len){
-  Log("%d:size %d,len %d,offset %d",fd,fs_filesz(fd),len,fs_offset(fd));
+  //Log("%d:size %d,len %d,offset %d",fd,fs_filesz(fd),len,fs_offset(fd));
   switch(fd){
     case FD_STDIN:
       break;
@@ -116,6 +116,6 @@ ssize_t fs_write(int fd, const void* buf, size_t len){
       ramdisk_write(buf, tot_offset(fd), len);
       update_offset(fd, len);
   }
-  Log(" newoffset %d\n",fs_offset(fd));
+  //Log(" newoffset %d\n",fs_offset(fd));
   return len;
 }
