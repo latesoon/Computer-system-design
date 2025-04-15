@@ -46,8 +46,11 @@ static inline off_t update_offset3(int fd, int len, int mode){
     file_table[fd].open_offset = file_table[fd].size;
   Log(" newoffset %d\n",fs_offset(fd));
   file_table[fd].open_offset += len;
+  Log(" newoffset %d\n",fs_offset(fd));
   file_table[fd].open_offset = ((file_table[fd].open_offset > len) ? len : file_table[fd].open_offset);
+  Log(" newoffset %d\n",fs_offset(fd));
   file_table[fd].open_offset = ((file_table[fd].open_offset < 0) ? 0 : file_table[fd].open_offset);
+  Log(" newoffset %d\n",fs_offset(fd));
   Log(" newoffset %d\n",fs_offset(fd));
   return file_table[fd].open_offset;
 }
