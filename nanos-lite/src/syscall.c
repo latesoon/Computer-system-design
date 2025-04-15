@@ -1,5 +1,6 @@
 #include "common.h"
 #include "syscall.h"
+#include "fs.h"
 
 int do_syswrite(int fd,const void* buf,size_t len){
   if(fd == 1 || fd == 2){
@@ -25,12 +26,20 @@ _RegSet* do_syscall(_RegSet *r) {
       _halt(SYSCALL_ARG2(r));
       break; 
     case SYS_write:
-      Log("SYS_write!");
-      SYSCALL_ARG1(r) = do_syswrite(((int)(a[1])), ((char*)(a[2])),((size_t)(a[3])));
+      //PA3.1
+      //Log("SYS_write!");
+      //SYSCALL_ARG1(r) = do_syswrite(((int)(a[1])), ((char*)(a[2])),((size_t)(a[3])));
+
+      //PA3.2
+      SYSCALL_ARG1(r) = fs_write(((int)(a[1])), ((char*)(a[2])),((size_t)(a[3])));
       break;
     case SYS_brk:
       SYSCALL_ARG1(r) = 0;
       break;
+    case SYS_read:
+      SYSCALL_ARG1(r) = fs_read(a[1],((char*)(a[2])),a[3]);
+      break;
+    
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 
