@@ -85,5 +85,8 @@ int fs_close(int fd){
 }
 
 off_t fs_lseek(int fd, off_t offset, int whence){
+  assert(whence == SEEK_CUR || whence == SEEK_END || whence == SEEK_SET);
   return update_offset3(fd, offset, whence);
 }
+
+
