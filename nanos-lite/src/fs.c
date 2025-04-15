@@ -25,3 +25,8 @@ static Finfo file_table[] __attribute__((used)) = {
 void init_fs() {
   // TODO: initialize the size of /dev/fb
 }
+
+static inline size_t fs_filesz(int fd){
+  return file_table[fd].size;
+}
+
