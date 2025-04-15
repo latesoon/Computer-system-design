@@ -26,7 +26,7 @@ void init_fs() {
   // TODO: initialize the size of /dev/fb
 }
 
-static inline size_t fs_filesz(int fd){
+size_t fs_filesz(int fd){
   return file_table[fd].size;
 }
 
