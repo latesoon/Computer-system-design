@@ -128,7 +128,7 @@ ssize_t fs_write(int fd, const void* buf, size_t len){
       len = (fs_filesz(fd) - fs_offset(fd) >= len) ? len : (fs_filesz(fd) - fs_offset(fd));
       if(len <= 0) 
         return 0;
-      ramdisk_write(buf, tot_offset(fd), len);
+      ramdisk_write(buf, fs_offset(fd), len);
       update_offset(fd, len);
   }
   //Log(" newoffset %d\n",fs_offset(fd));
