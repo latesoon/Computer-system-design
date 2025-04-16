@@ -11,10 +11,10 @@ static const char *keyname[256] __attribute__((used)) = {
 size_t events_read(void *buf, size_t len) {
   int key = _read_key();
   if(key == _KEY_NONE)
-    ;
+    sprintf(buf,"t %d\n",_uptime());
   else
     sprintf(buf,"%s %s\n",(key & 0x8000) ? "kd" : "ku", keyname[key & 255]);
-  return 0;
+  return strlen(buf);
 }
 
 static char dispinfo[128] __attribute__((used));
