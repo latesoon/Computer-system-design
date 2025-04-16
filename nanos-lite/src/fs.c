@@ -128,7 +128,7 @@ ssize_t fs_write(int fd, const void* buf, size_t len){
       break;
     case FD_FB:
       fb_write(buf, fs_offset(fd), len);
-      //update_offset(fd, len);
+      update_offset(fd, len);
       break;
     default:
       len = (fs_filesz(fd) - fs_offset(fd) >= len) ? len : (fs_filesz(fd) - fs_offset(fd));
