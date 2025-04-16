@@ -71,6 +71,7 @@ int fs_open(const char* pathname, int flags, int mode){
 
 void ramdisk_read(void *buf, off_t offset, size_t len);
 void dispinfo_read(void *buf, off_t offset, size_t len);
+size_t events_read(void *buf, size_t len);
 
 ssize_t fs_read(int fd, void* buf, size_t len){
   //Log("%d:size %d,len %d,offset %d",fd,fs_filesz(fd),len,fs_offset(fd));
@@ -86,6 +87,9 @@ ssize_t fs_read(int fd, void* buf, size_t len){
         return 0;
       dispinfo_read(buf, tot_offset(fd), len);
       update_offset(fd, len);
+      break;
+    case FD_EVENTS:
+      len = events_read(buf, len);
       break;
     default:
       len = (fs_filesz(fd) - fs_offset(fd) >= len) ? len : (fs_filesz(fd) - fs_offset(fd));
@@ -115,6 +119,7 @@ ssize_t fs_write(int fd, const void* buf, size_t len){
   switch(fd){
     case FD_STDIN:
     case FD_DISPINFO:
+    case FD_EVENTS:
       break;
     case FD_STDOUT:
     case FD_STDERR:
