@@ -1,7 +1,7 @@
 #include "cpu/exec.h"
 
 make_EHelper(mov) {
-  Log("%d   %d\n",id_src->val,id_src->reg);
+  //Log("%d   %d\n",id_src->val,id_src->reg);
   operand_write(id_dest, &id_src->val);
   print_asm_template2(mov);
 }
@@ -103,4 +103,20 @@ make_EHelper(lea) {
   rtl_li(&t2, id_src->addr);
   operand_write(id_dest, &t2);
   print_asm_template2(lea);
+}
+
+make_EHelper(mov_c2r){
+  assert(id_src->reg == 0 || id_src->reg == 3);
+  id_src->val = id_src->reg ? cpu.cr3 : cpu.cr0;
+  operand_write(id_dest, &id_src->val);
+  print_asm_template2(mov_c2r);
+}
+
+make_EHelper(mov_r2c){
+  assert(id_dest->reg == 0 || id_dest->reg == 3);
+  if(id_dest -> reg)
+    cpu.cr3 = id_src->val;
+  else
+    cpu.cr0 = id_src->val;
+  print_asm_template2(mov_c2r);
 }
