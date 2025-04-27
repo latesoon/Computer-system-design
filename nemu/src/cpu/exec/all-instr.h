@@ -55,3 +55,6 @@ make_EHelper(int);
 make_EHelper(pusha);
 make_EHelper(popa);
 make_EHelper(iret);
+//PA4.1
+make_EHelper(mov_c2r);
+make_EHelper(mov_r2c);
