@@ -1,6 +1,7 @@
 #include "cpu/exec.h"
 
 make_EHelper(mov) {
+  Log("%d   %d\n",id_src->val,id_src->reg);
   operand_write(id_dest, &id_src->val);
   print_asm_template2(mov);
 }
