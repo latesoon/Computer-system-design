@@ -103,6 +103,7 @@ void vaddr_write(vaddr_t addr, int len, uint32_t data) {
     int fst_half_len = next_page_begin - addr;
     paddr_write(page_translate(addr,true), fst_half_len, data);
     paddr_write(page_translate(next_page_begin,true), len - fst_half_len, (data >> (fst_half_len << 3)));
+    return;
   } 
   paddr = page_translate(addr, true);
   return paddr_write(paddr, len, data);
