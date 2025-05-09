@@ -61,7 +61,7 @@ uint32_t vaddr_read(vaddr_t addr, int len) {
 
   paddr_t paddr = addr;
   if(BEGIN(addr) != BEGIN(addr+len-1)){
-    if(BEGIN(addr) != BEGIN(addr+len-1)-1)
+    if(BEGIN(addr) != BEGIN(addr+len-1)-(1<<12))
       assert(0);//do not reach
     vaddr_t vaddr2 = BEGIN(addr+len-1);
     int len1 = vaddr2 - addr;
@@ -79,7 +79,7 @@ void vaddr_write(vaddr_t addr, int len, uint32_t data) {
 
   paddr_t paddr = addr;
   if(BEGIN(addr) != BEGIN(addr+len-1)){
-    if(BEGIN(addr) != BEGIN(addr+len-1)-1)
+    if(BEGIN(addr) != BEGIN(addr+len-1)-(1<<12))
       assert(0);//do not reach
     vaddr_t vaddr2 = BEGIN(addr+len-1);
     int len1 = vaddr2 - addr;
