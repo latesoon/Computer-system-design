@@ -37,10 +37,12 @@ void paddr_write(paddr_t addr, int len, uint32_t data) {
 }
 
 paddr_t page_translate(vaddr_t addr, bool write){
-  PDE pde = (PDE)(paddr_read(cpu.cr3 + PDX(addr),4));
+  PDE pde = (PDE)(paddr_read(BEGIN(cpu.cr3) + PDX(addr),4));
+  Log("PDE:%x",pde.val);
   assert(pde.present);
 
   PTE pte = (PTE)(paddr_read(BEGIN(pde.val) + PTX(addr),4));
+  Log("PTE:%x",pte.val);
   assert(pte.present);
 
   pde.accessed = 1;
