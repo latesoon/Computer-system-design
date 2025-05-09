@@ -41,10 +41,10 @@ paddr_t page_translate(vaddr_t addr, bool write){
     return addr;
   
   PDE pde = (PDE)(paddr_read(cpu.cr3 + PDX(addr),4));
-  Assert(pde.present,"PDE PRESENT CHECK FAILED!");
+  assert(pde.present);
 
   PTE pte = (PTE)(paddr_read(BEGIN(pde.val) + PTX(addr),4));
-  Assert(pte.present,"PTE PRESENT CHECK FAILED!");
+  assert(pte.present);
 
   pde.accessed = 1;
   pte.accessed = 1;
@@ -57,9 +57,8 @@ uint32_t vaddr_read(vaddr_t addr, int len) {
   paddr_t paddr = addr;
   if(BEGIN(addr) != BEGIN(addr+len-1))
     assert(0);
-  else{
-    //paddr = page_translate()
-  }
+  else
+    paddr = page_translate(addr, false);
   return paddr_read(paddr, len);
 }
 
