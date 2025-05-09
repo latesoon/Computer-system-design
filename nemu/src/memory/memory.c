@@ -17,7 +17,7 @@ uint8_t pmem[PMEM_SIZE];
 #define OFFSET(addr) (((uint32_t)addr) & ((1 << 12) - 1))
 
 static bool use_paging(){
-  return (cpu.cr0 & 0x1) && (cpu.cr0 & 0x8000);
+  return (cpu.cr0 & 0x1) && (cpu.cr0 & 0x80000000);
 }
 
 /* Memory accessing interfaces */
