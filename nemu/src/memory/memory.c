@@ -37,9 +37,10 @@ void paddr_write(paddr_t addr, int len, uint32_t data) {
 }
 
 paddr_t page_translate(vaddr_t addr, bool write){
-  Log("CR3:%x BEGIN:%x ADDR:%x PDX:%x",cpu.cr3,BEGIN(cpu.cr3),addr,PDX(addr));
+  //Log("CR3:%x BEGIN:%x ADDR:%x PDX:%x",cpu.cr3,BEGIN(cpu.cr3),addr,PDX(addr));
   PDE pde = (PDE)(paddr_read(BEGIN(cpu.cr3) + PDX(addr),4));
-  Log("PDE:%x",pde.val);
+  //Log("PDE:%x",pde.val);
+  Assert(pde.present,"CR3:%x BEGIN:%x ADDR:%x PDX:%x",cpu.cr3,BEGIN(cpu.cr3),addr,PDX(addr));
   assert(pde.present);
 
   //Log("PDE:%x BEGIN:%x ADDR:%x PTX:%x",pde.val,BEGIN(pde.val),addr,PTX(addr));
