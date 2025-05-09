@@ -37,9 +37,6 @@ void paddr_write(paddr_t addr, int len, uint32_t data) {
 }
 
 paddr_t page_translate(vaddr_t addr, bool write){
-  if(!use_paging())
-    return addr;
-  
   PDE pde = (PDE)(paddr_read(cpu.cr3 + PDX(addr),4));
   assert(pde.present);
 
@@ -54,6 +51,9 @@ paddr_t page_translate(vaddr_t addr, bool write){
 }
 
 uint32_t vaddr_read(vaddr_t addr, int len) {
+  if(!use_paging())
+    return paddr_read(addr, len);
+
   paddr_t paddr = addr;
   if(BEGIN(addr) != BEGIN(addr+len-1))
     assert(0);
@@ -63,6 +63,9 @@ uint32_t vaddr_read(vaddr_t addr, int len) {
 }
 
 void vaddr_write(vaddr_t addr, int len, uint32_t data) {
+  if(!use_paging())
+    return paddr_write(addr, len, data);
+
   paddr_t paddr = addr;
   if(BEGIN(addr) != BEGIN(addr+len-1))
     assert(0);
