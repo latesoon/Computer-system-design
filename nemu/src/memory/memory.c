@@ -10,6 +10,9 @@
 
 uint8_t pmem[PMEM_SIZE];
 
+#define BEGIN(pte) (((uint32_t)pte) & ((1 << 12) - 1))
+
+
 /* Memory accessing interfaces */
 
 uint32_t paddr_read(paddr_t addr, int len) {
@@ -26,8 +29,19 @@ void paddr_write(paddr_t addr, int len, uint32_t data) {
     mmio_write(addr,len,data,is_mmio(addr));
 }
 
+paddr_t page_translate(vaddr_t addr, bool write){
+  return 1;
+}
+
 uint32_t vaddr_read(vaddr_t addr, int len) {
-  return paddr_read(addr, len);
+  paddr_t paddr = addr;
+  if(BEGIN(addr) != BEGIN(addr+len-1)){
+    assert(0);
+  }
+  else{
+    //paddr = page_translate()
+  }
+  return paddr_read(paddr, len);
 }
 
 void vaddr_write(vaddr_t addr, int len, uint32_t data) {

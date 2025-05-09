@@ -119,5 +119,5 @@ make_EHelper(mov_r2c){
   else
     cpu.cr0 = id_src->val;
   print_asm_template2(mov_r2c);
-  Log("CR%d changed!\n CR0:%08x CR3:%08x\n",id_dest->reg,cpu.cr0,cpu.cr3);
+  //Log("CR%d changed!\n CR0:%08x CR3:%08x\n",id_dest->reg,cpu.cr0,cpu.cr3);
 }
