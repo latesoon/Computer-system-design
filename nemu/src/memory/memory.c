@@ -85,7 +85,7 @@ void vaddr_write(vaddr_t addr, int len, uint32_t data) {
     vaddr_t vaddr2 = BEGIN(addr+len-1);
     int len1 = vaddr2 - addr;
     int len2 = len - len1;
-    vaddr_write(addr,len1,data );
+    vaddr_write(addr,len1,data & ((1<<(len1<<3))-1));
     vaddr_write(vaddr2,len2,data>>((len-len2) << 3));
     return;
   }
