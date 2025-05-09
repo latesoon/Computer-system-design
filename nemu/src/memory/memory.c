@@ -1,5 +1,6 @@
 #include "nemu.h"
 #include "device/mmio.h"
+#include "memory/mmu.h"
 
 #define PMEM_SIZE (128 * 1024 * 1024)
 
@@ -10,8 +11,14 @@
 
 uint8_t pmem[PMEM_SIZE];
 
-#define BEGIN(pte) (((uint32_t)pte) & ((1 << 12) - 1))
+#define BEGIN(pte) (((uint32_t)pte) & (~((1 << 12) - 1)))
+#define PDX(addr) ((((uint32_t)addr) >> 22) & ((1 << 10) - 1))
+#define PTX(addr) ((((uint32_t)addr) >> 12) & ((1 << 10) - 1))
+#define OFFSET(addr) (((uint32_t)addr) & ((1 << 12) - 1))
 
+static bool use_paging(){
+  return (cpu.cr0 & 0x1) && (cpu.cr0 & 0x8000);
+}
 
 /* Memory accessing interfaces */
 
@@ -30,14 +37,26 @@ void paddr_write(paddr_t addr, int len, uint32_t data) {
 }
 
 paddr_t page_translate(vaddr_t addr, bool write){
-  return 1;
+  if(!use_paging())
+    return addr;
+  
+  PDE pde = (PDE)(paddr_read(cpu.cr3 + PDX(addr),4));
+  Assert(pde.present,"PDE PRESENT CHECK FAILED!");
+
+  PTE pte = (PTE)(paddr_read(BEGIN(pde.val) + PTX(addr),4));
+  Assert(pte.present,"PTE PRESENT CHECK FAILED!");
+
+  pde.accessed = 1;
+  pte.accessed = 1;
+  pte.dirty |= write;
+
+  return BEGIN(pte.val) | OFFSET(addr);
 }
 
 uint32_t vaddr_read(vaddr_t addr, int len) {
   paddr_t paddr = addr;
-  if(BEGIN(addr) != BEGIN(addr+len-1)){
+  if(BEGIN(addr) != BEGIN(addr+len-1))
     assert(0);
-  }
   else{
     //paddr = page_translate()
   }
