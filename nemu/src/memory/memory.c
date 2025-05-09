@@ -12,8 +12,8 @@
 uint8_t pmem[PMEM_SIZE];
 
 #define BEGIN(pte) (((uint32_t)pte) & (~((1 << 12) - 1)))
-#define PDX(addr) (((((uint32_t)addr) >> 22) & ((1 << 10) - 1)))
-#define PTX(addr) (((((uint32_t)addr) >> 12) & ((1 << 10) - 1)))
+#define PDX(addr) (((((uint32_t)addr) >> 22) & ((1 << 10) - 1))<< 2)
+#define PTX(addr) (((((uint32_t)addr) >> 12) & ((1 << 10) - 1))<< 2)
 #define OFFSET(addr) (((uint32_t)addr) & ((1 << 12) - 1))
 
 static bool use_paging(){
@@ -85,8 +85,8 @@ void vaddr_write(vaddr_t addr, int len, uint32_t data) {
     vaddr_t vaddr2 = BEGIN(addr+len-1);
     int len1 = vaddr2 - addr;
     int len2 = len - len1;
-    vaddr_write(addr,len1,data);
-    vaddr_write(vaddr2,len2,data>>((4-len2) << 3));
+    vaddr_write(addr,len1,data );
+    vaddr_write(vaddr2,len2,data>>((len-len2) << 3));
     return;
   }
   paddr = page_translate(addr, true);
