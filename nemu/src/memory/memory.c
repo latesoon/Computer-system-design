@@ -12,8 +12,8 @@
 uint8_t pmem[PMEM_SIZE];
 
 #define BEGIN(pte) (((uint32_t)pte) & (~((1 << 12) - 1)))
-#define PDX(addr) (((((uint32_t)addr) >> 22) & ((1 << 10) - 1))<< 2)
-#define PTX(addr) (((((uint32_t)addr) >> 12) & ((1 << 10) - 1))<< 2)
+#define PDX(addr) (((((uint32_t)addr) >> 22) & ((1 << 10) - 1)))
+#define PTX(addr) (((((uint32_t)addr) >> 12) & ((1 << 10) - 1)))
 #define OFFSET(addr) (((uint32_t)addr) & ((1 << 12) - 1))
 
 static bool use_paging(){
