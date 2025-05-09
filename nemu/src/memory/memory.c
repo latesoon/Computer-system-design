@@ -61,22 +61,21 @@ uint32_t vaddr_read(vaddr_t addr, int len) {
     return paddr_read(addr, len);
 
   paddr_t paddr = addr;
-  /*
   if(BEGIN(addr) != BEGIN(addr+len-1)){
     if(BEGIN(addr) != BEGIN(addr+len-1)-(1<<12))
       assert(0);//do not reach
     vaddr_t vaddr2 = BEGIN(addr+len-1);
     int len1 = vaddr2 - addr;
     int len2 = len - len1;
-    return (vaddr_read(addr,len1) << (len1 << 3)) | vaddr_read(vaddr2,len2);
-  }*/
+    return (paddr_read(page_translate(addr,false),len1) << (len1 << 3)) | paddr_read(page_translate(vaddr2,false),len2);
+  }/*
   vaddr_t next_page_begin = BEGIN(addr + len - 1);
   if (BEGIN(addr) != next_page_begin) {
     int fst_half_len = next_page_begin - addr;
     uint32_t fst_val = paddr_read(page_translate(addr,false), fst_half_len);
     uint32_t snd_val = paddr_read(page_translate(next_page_begin,false), len - fst_half_len);
     return ((snd_val << (fst_half_len << 3)) | fst_val);
-  }
+  }*/
   paddr = page_translate(addr, false);
   return paddr_read(paddr, len);
 }
