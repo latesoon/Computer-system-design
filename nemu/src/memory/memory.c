@@ -63,5 +63,10 @@ uint32_t vaddr_read(vaddr_t addr, int len) {
 }
 
 void vaddr_write(vaddr_t addr, int len, uint32_t data) {
-  paddr_write(addr, len, data);
+  paddr_t paddr = addr;
+  if(BEGIN(addr) != BEGIN(addr+len-1))
+    assert(0);
+  else
+    paddr = page_translate(addr, true);
+  return paddr_write(paddr, len, data);
 }
