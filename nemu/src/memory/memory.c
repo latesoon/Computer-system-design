@@ -51,6 +51,7 @@ paddr_t page_translate(vaddr_t addr, bool write){
 }
 
 uint32_t vaddr_read(vaddr_t addr, int len) {
+  Log("Pageing use:%d\n",use_paging());
   if(!use_paging())
     return paddr_read(addr, len);
 
