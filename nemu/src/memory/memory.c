@@ -87,24 +87,24 @@ void vaddr_write(vaddr_t addr, int len, uint32_t data) {
     return paddr_write(addr, len, data);
 
   paddr_t paddr = addr;
-  /*
+  
   if(BEGIN(addr) != BEGIN(addr+len-1)){
     if(BEGIN(addr) != BEGIN(addr+len-1)-(1<<12))
       assert(0);//do not reach
     vaddr_t vaddr2 = BEGIN(addr+len-1);
     int len1 = vaddr2 - addr;
     int len2 = len - len1;
-    vaddr_write(addr,len1,data & ((1<<(len1<<3))-1));
-    vaddr_write(vaddr2,len2,data>>(len1 << 3));
+    paddr_write(page_translate(addr,true),len1,data & ((1<<(len1<<3))-1));
+    paddr_write(page_translate(vaddr2,true),len2,data>>(len1 << 3));
     return;
-  }*/
+  }/*
   vaddr_t next_page_begin = BEGIN(addr + len - 1);
   if (BEGIN(addr) != next_page_begin) {
     int fst_half_len = next_page_begin - addr;
     paddr_write(page_translate(addr,true), fst_half_len, data);
     paddr_write(page_translate(next_page_begin,true), len - fst_half_len, (data >> (fst_half_len << 3)));
     return;
-  } 
+  } */
   paddr = page_translate(addr, true);
   return paddr_write(paddr, len, data);
 }
