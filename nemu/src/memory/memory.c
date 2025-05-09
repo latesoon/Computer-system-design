@@ -63,6 +63,7 @@ uint32_t vaddr_read(vaddr_t addr, int len) {
 }
 
 void vaddr_write(vaddr_t addr, int len, uint32_t data) {
+  Log("Pageing use:%d\n",use_paging());
   if(!use_paging())
     return paddr_write(addr, len, data);
 
