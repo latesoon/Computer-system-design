@@ -49,7 +49,7 @@ paddr_t page_translate(vaddr_t addr, bool write){
   pde.accessed = 1;
   pte.accessed = 1;
   pte.dirty |= write;
-
+  Log("VADDR:%x PADDR:%x",addr,BEGIN(pte.val) | OFFSET(addr));
   return BEGIN(pte.val) | OFFSET(addr);
 }
 
