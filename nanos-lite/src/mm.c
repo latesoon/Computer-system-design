@@ -3,6 +3,8 @@
 
 static void *pf = NULL;
 
+#define ALIGN_UP(x) (((x) + 0xFFF) & ~0xFFF)
+
 void* new_page(void) {
   assert(pf < (void *)_heap.end);
   void *p = pf;
@@ -16,6 +18,22 @@ void free_page(void *p) {
 
 /* The brk() system call handler. */
 int mm_brk(uint32_t new_brk) {
+  if (current->cur_brk == 0) {
+    current->cur_brk = new_brk;
+    current->max_brk = ALIGN_UP(new_brk);
+  }
+  else {
+    if (new_brk > current->max_brk) {
+      // TODO: map memory region [current->max_brk, new_brk)
+      // into address space current->as
+      current->max_brk = ALIGN_UP(current->max_brk);
+      while(new_brk < current->max_brk){
+        _map(&current->as, (void*)current->max_brk, new_page());
+        current->max_brk += PGSIZE; 
+      }
+    }
+    current->cur_brk = new_brk;
+  }
   return 0;
 }
 
