@@ -23,6 +23,7 @@ uintptr_t loader(_Protect *as, const char *filename) {
   int size = fs_filesz(fd);
   for (int sz = 0; sz < size; sz+= PGSIZE){
     void* pa = new_page();
+    Log("map!va:%x pa:%x",DEFAULT_ENTRY + sz, pa);
     _map(as, DEFAULT_ENTRY + sz, pa);
     fs_read(fd, pa, ((size - sz > PGSIZE) ? PGSIZE : (size - sz)));
   }
