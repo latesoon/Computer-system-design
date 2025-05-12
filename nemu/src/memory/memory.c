@@ -37,21 +37,21 @@ void paddr_write(paddr_t addr, int len, uint32_t data) {
 }
 
 paddr_t page_translate(vaddr_t addr, bool write){
-  Log("CR3:%x BEGIN:%x ADDR:%x PDX:%x",cpu.cr3,BEGIN(cpu.cr3),addr,PDX(addr));
+  //Log("CR3:%x BEGIN:%x ADDR:%x PDX:%x",cpu.cr3,BEGIN(cpu.cr3),addr,PDX(addr));
   PDE pde = (PDE)(paddr_read((uint32_t)(BEGIN(cpu.cr3) + PDX(addr)),4));
-  Log("PDE:%x",pde.val);
+  //Log("PDE:%x",pde.val);
   Assert(pde.present,"CR3:%x BEGIN:%x ADDR:%x PDX:%x PDE:%x",cpu.cr3,BEGIN(cpu.cr3),addr,PDX(addr),pde.val);
   assert(pde.present);
 
-  Log("PDE:%x BEGIN:%x ADDR:%x PTX:%x",pde.val,BEGIN(pde.val),addr,PTX(addr));
+  //Log("PDE:%x BEGIN:%x ADDR:%x PTX:%x",pde.val,BEGIN(pde.val),addr,PTX(addr));
   PTE pte = (PTE)(paddr_read((uint32_t)(BEGIN(pde.val) + PTX(addr)),4));
-  Log("PTE:%x",pte.val);
+  //Log("PTE:%x",pte.val);
   assert(pte.present);
 
   pde.accessed = 1;
   pte.accessed = 1;
   pte.dirty |= write;
-  Log("VADDR:%x PADDR:%x",addr,BEGIN(pte.val) | OFFSET(addr));
+  //Log("VADDR:%x PADDR:%x",addr,BEGIN(pte.val) | OFFSET(addr));
   return BEGIN(pte.val) | OFFSET(addr);
 }
 
