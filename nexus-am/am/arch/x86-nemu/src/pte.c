@@ -66,6 +66,12 @@ void _switch(_Protect *p) {
 }
 
 void _map(_Protect *p, void *va, void *pa) {
+  //assert(!(((uint32_t)va & 0xFFF) | ((uint32_t)pa & 0xFFF)));
+  PDE* dir = (PDE*)p->ptr;
+  if(!(dir[PDX(va)] & PTE_P))
+    dir[PDX(va)] = ((uint32_t)palloc_f() & ~0xFFF) | PTE_P;
+  PTE* pte = (PTE*)(dir[PDX(va)] & ~0xFFF);
+  pte[PTX(va)] = (uint32_t)pa | PTE_P; 
 }
 
 void _unmap(_Protect *p, void *va) {

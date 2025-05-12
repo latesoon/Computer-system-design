@@ -67,7 +67,7 @@ uint32_t vaddr_read(vaddr_t addr, int len) {
     vaddr_t vaddr2 = BEGIN(addr+len-1);
     int len1 = vaddr2 - addr;
     int len2 = len - len1;
-    return (paddr_read(page_translate(addr,false),len1)<< (len1 << 3) ) | ((paddr_read(page_translate(vaddr2,false),len2)));
+    return (paddr_read(page_translate(addr,false),len1) ) | ((paddr_read(page_translate(vaddr2,false),len2))<< (len1 << 3));
   }
   paddr = page_translate(addr, false);
   return paddr_read(paddr, len);
