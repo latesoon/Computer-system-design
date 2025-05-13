@@ -48,7 +48,7 @@ _RegSet* schedule(_RegSet *prev) {
   else current = (ispal ? &pcb[0] : &pcb[2]);
   //else return current->tf;
   _switch(&current->as);
-  Log("%x",current->tf);
+  Log("%d:%x",current == &pcb[0] ? 0 : 1,current->tf);
   return current->tf;
   //return NULL;
 }
