@@ -45,7 +45,7 @@ paddr_t page_translate(vaddr_t addr, bool write){
 
   //Log("PDE:%x BEGIN:%x ADDR:%x PTX:%x",pde.val,BEGIN(pde.val),addr,PTX(addr));
   PTE pte = (PTE)(paddr_read((uint32_t)(BEGIN(pde.val) + PTX(addr)),4));
-  //Log("PTE:%x",pte.val);
+  Log("PTE:%x",pte.val);
   assert(pte.present);
 
   pde.accessed = 1;
