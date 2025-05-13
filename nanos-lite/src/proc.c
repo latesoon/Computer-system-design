@@ -30,7 +30,10 @@ _RegSet* schedule(_RegSet *prev) {
   //assert(current != NULL);
   if(current!=NULL)
     current->tf = prev;
-  current = &pcb[0];
+  //PA4.2(2)
+  //current = &pcb[0];
+  //PA4.2(3)
+  current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
   _switch(&current->as);
   return current->tf;
   //return NULL;
