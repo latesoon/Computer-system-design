@@ -26,7 +26,7 @@ void load_prog(const char *filename) {
   pcb[i].tf = _umake(&pcb[i].as, stack, stack, (void *)entry, NULL, NULL);
 }
 
-bool ispal = false;
+bool ispal = true;
 
 _RegSet* schedule(_RegSet *prev) {
   //assert(current != NULL);
@@ -48,7 +48,7 @@ _RegSet* schedule(_RegSet *prev) {
   else current = (ispal ? &pcb[0] : &pcb[2]);
   //else return current->tf;
   _switch(&current->as);
-  Log("%d:%x",current == &pcb[0] ? 0 : 1,current->tf);
+  Log("%d:%x",current == &pcb[0] ? 0 : (current == &pcb[1] ? 1 : 2),current->tf);
   return current->tf;
   //return NULL;
 }
