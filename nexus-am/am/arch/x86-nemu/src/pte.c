@@ -83,7 +83,7 @@ extern void* memcpy(void* dst, const void* src, size_t n);
 _RegSet *_umake(_Protect *p, _Area ustack, _Area kstack, void *entry, char *const argv[], char *const envp[]) {
   memset((void*)ustack.end - 16, 0, 16);
   _RegSet tf;
-  tf.eflags = 0x2;
+  tf.eflags = 0x2 | FL_IF;
   tf.cs = 0x8;
   tf.eip = (uintptr_t)entry;
   memcpy(ustack.end - 16 - sizeof(_RegSet), (void*)&tf, sizeof(_RegSet));
