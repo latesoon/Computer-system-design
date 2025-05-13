@@ -47,6 +47,8 @@ typedef struct {
   uint32_t cs;
 
   uint32_t cr0, cr3;
+
+  bool intr;
 } CPU_state;
 
 extern CPU_state cpu;
