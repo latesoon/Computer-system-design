@@ -26,6 +26,8 @@ void load_prog(const char *filename) {
   pcb[i].tf = _umake(&pcb[i].as, stack, stack, (void *)entry, NULL, NULL);
 }
 
+bool ispal = false;
+
 _RegSet* schedule(_RegSet *prev) {
   //assert(current != NULL);
   if(current!=NULL)
@@ -36,13 +38,14 @@ _RegSet* schedule(_RegSet *prev) {
   //current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
   //PA4.2(3,new)
   static int cnt = 0;
-  Log("%d",cnt);
-  if(current != &pcb[0])//pcb[1] or NULL
-    current = &pcb[0];
+  //Log("%d",cnt);
+  if(current != &pcb[0] && current != &pcb[2])//pcb[1] or NULL
+    current = (ispal ? &pcb[0] : &pcb[2]);
   else if(++cnt >= 10000){
     cnt = 0;
     current = &pcb[1];
   }
+  else current = (ispal ? &pcb[0] : &pcb[2]);
   //else return current->tf;
   _switch(&current->as);
   return current->tf;

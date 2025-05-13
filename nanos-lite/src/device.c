@@ -8,12 +8,17 @@ static const char *keyname[256] __attribute__((used)) = {
   _KEYS(NAME)
 };
 
+extern bool ispal;
+
 size_t events_read(void *buf, size_t len) {
   int key = _read_key();
   if(key == _KEY_NONE)
     sprintf(buf,"t %d\n",_uptime());
-  else
+  else{
     sprintf(buf,"%s %s\n",(key & 0x8000) ? "kd" : "ku", keyname[key & 255]);
+    if((key & 0x8000) && ((key & 255) == _KEY_F12))
+      ispal = !ispal;
+  }
   return strlen(buf);
 }
 

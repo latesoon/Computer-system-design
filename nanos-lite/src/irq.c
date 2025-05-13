@@ -11,7 +11,7 @@ static _RegSet* do_event(_Event e, _RegSet* r) {
       //printf("Do Trap!\n");
       //break;
     case _EVENT_IRQ_TIME: 
-      Log("Time interrupt!");
+      //Log("Time interrupt!");
       return schedule(r);
     default: panic("Unhandled event ID = %d", e.event);
   }
