@@ -9,7 +9,7 @@ void raise_intr(uint8_t NO, vaddr_t ret_addr) {
   //TODO();
   rtl_push(&cpu.eflags);
 
-  //PA4.3
+//PA4.3
   cpu.IF = 0;
 
   rtl_push(&cpu.cs);
