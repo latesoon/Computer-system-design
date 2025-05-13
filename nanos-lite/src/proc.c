@@ -26,7 +26,7 @@ void load_prog(const char *filename) {
   pcb[i].tf = _umake(&pcb[i].as, stack, stack, (void *)entry, NULL, NULL);
 }
 
-bool ispal = false;
+bool ispal = true;
 
 _RegSet* schedule(_RegSet *prev) {
   //assert(current != NULL);
