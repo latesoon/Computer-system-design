@@ -40,12 +40,12 @@ _RegSet* schedule(_RegSet *prev) {
   static int cnt = 0;
   //Log("%d",cnt);
   if(current != &pcb[0] && current != &pcb[2])//pcb[1] or NULL
-    current = (ispal ? &pcb[0] : &pcb[1]);
+    current = (ispal ? &pcb[0] : &pcb[2]);
   else if(++cnt >= 10000){
     cnt = 0;
     current = &pcb[1];
   }
-  else current = (ispal ? &pcb[0] : &pcb[1]);
+  else current = (ispal ? &pcb[0] : &pcb[2]);
   //else return current->tf;
   _switch(&current->as);
   return current->tf;
