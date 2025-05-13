@@ -87,5 +87,5 @@ _RegSet *_umake(_Protect *p, _Area ustack, _Area kstack, void *entry, char *cons
   tf.cs = 0x8;
   tf.eip = (uintptr_t)entry;
   memcpy(ustack.end - 16 - sizeof(_RegSet), (void*)&tf, sizeof(_RegSet));
-  return (_RegSet*)ustack.end - 16 - sizeof(_RegSet);
+  return (_RegSet*)(ustack.end - 16 - sizeof(_RegSet));
 }
