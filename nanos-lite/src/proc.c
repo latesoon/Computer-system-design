@@ -39,7 +39,7 @@ _RegSet* schedule(_RegSet *prev) {
   Log("%d",cnt);
   if(current != &pcb[0])//pcb[1] or NULL
     current = &pcb[0];
-  else if(cnt++ > 10000){
+  else if(++cnt >= 10000){
     cnt = 0;
     current = &pcb[1];
   }
