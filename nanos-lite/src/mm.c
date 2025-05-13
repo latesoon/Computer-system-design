@@ -27,7 +27,7 @@ int mm_brk(uint32_t new_brk) {
       // TODO: map memory region [current->max_brk, new_brk)
       // into address space current->as
       current->max_brk = ALIGN_UP(current->max_brk);
-      while(new_brk < current->max_brk){
+      while(new_brk > current->max_brk){
         _map(&current->as, (void*)current->max_brk, new_page());
         current->max_brk += PGSIZE; 
       }
