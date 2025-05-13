@@ -42,7 +42,7 @@ _RegSet* schedule(_RegSet *prev) {
     cnt = 0;
     current = &pcb[1];
   }
-  else return current->tf;
+  //else return current->tf;
   _switch(&current->as);
   return current->tf;
   //return NULL;
