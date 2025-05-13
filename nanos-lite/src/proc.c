@@ -35,11 +35,11 @@ _RegSet* schedule(_RegSet *prev) {
   //PA4.2(2)
   //current = &pcb[0];
   //PA4.2(3)
-  current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
+  //current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
   //PA4.2(3,new)
-  /*
   static int cnt = 0;
   //Log("%d",cnt);
+  /*
   if(current != &pcb[0] && current != &pcb[2])//pcb[1] or NULL
     current = (ispal ? &pcb[0] : &pcb[2]);
   else if(++cnt >= 10000){
@@ -49,6 +49,23 @@ _RegSet* schedule(_RegSet *prev) {
   else current = (ispal ? &pcb[0] : &pcb[2]);
   //else return current->tf;
   */
+  if (current == NULL)current = &pcb[0];
+  if(cnt==1000){
+    current=&pcb[1];
+    cnt=0;
+  }
+ else{
+  if(ispal)
+ {
+ current=&pcb[0];
+ cnt++;
+ }
+ else
+ {
+ current=&pcb[2];
+ cnt++;
+ }
+ }
   _switch(&current->as);
   Log("%d:%x",current == &pcb[0] ? 0 : (current == &pcb[1] ? 1 : 2),current->tf);
   return current->tf;
