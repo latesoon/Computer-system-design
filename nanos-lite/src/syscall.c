@@ -38,7 +38,7 @@ _RegSet* do_syscall(_RegSet *r) {
       break;
     case SYS_brk:
       //SYSCALL_ARG1(r) = 0;
-      SYSCALL_ARG1(r) = mm_brk((uint32_t)(a[2]));
+      SYSCALL_ARG1(r) = mm_brk((uint32_t)(a[1]));
       break;
     case SYS_read:
       SYSCALL_ARG1(r) = fs_read(((int)(a[1])), ((char*)(a[2])),((size_t)(a[3])));
