@@ -33,7 +33,16 @@ _RegSet* schedule(_RegSet *prev) {
   //PA4.2(2)
   //current = &pcb[0];
   //PA4.2(3)
-  current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
+  //current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
+  //PA4.2(3,new)
+  static int cnt = 0;
+  if(current == &pcb[1])
+    current = &pcb[0];
+  else if(cnt++ > 10000){
+    cnt = 0;
+    current = &pcb[1];
+  }
+  else return current->tf;
   _switch(&current->as);
   return current->tf;
   //return NULL;
