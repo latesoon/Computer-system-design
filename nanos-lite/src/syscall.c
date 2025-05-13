@@ -2,6 +2,8 @@
 #include "syscall.h"
 #include "fs.h"
 
+extern int mm_brk(uint32_t new_brk);
+
 int do_syswrite(int fd,const void* buf,size_t len){
   if(fd == 1 || fd == 2){
     for(int i=0;i<len;i++)
@@ -35,7 +37,8 @@ _RegSet* do_syscall(_RegSet *r) {
       SYSCALL_ARG1(r) = fs_write(((int)(a[1])), ((char*)(a[2])),((size_t)(a[3])));
       break;
     case SYS_brk:
-      SYSCALL_ARG1(r) = 0;
+      //SYSCALL_ARG1(r) = 0;
+      SYSCALL_ARG1(r) = mm_brk((uint32_t)(a[2]));
       break;
     case SYS_read:
       SYSCALL_ARG1(r) = fs_read(((int)(a[1])), ((char*)(a[2])),((size_t)(a[3])));
