@@ -36,7 +36,7 @@ _RegSet* schedule(_RegSet *prev) {
   //current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
   //PA4.2(3,new)
   static int cnt = 0;
-  if(current == &pcb[1])
+  if(current != &pcb[0])//pcb[1] or NULL
     current = &pcb[0];
   else if(cnt++ > 10000){
     cnt = 0;
