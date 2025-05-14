@@ -103,7 +103,7 @@ ssize_t fs_read(int fd, void* buf, size_t len){
 }
 
 int fs_close(int fd){
-  //update_offset3(fd,0,SEEK_SET);
+  update_offset3(fd,0,SEEK_SET);
   return 0;
 }
 
