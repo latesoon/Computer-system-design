@@ -239,6 +239,11 @@ PAL_LoadResources(
       //
       // Load map
       //
+      Log("Number of scenes: %d", gpGlobals->wNumScene);
+      for (int i = 0; i < gpGlobals->wNumScene; ++i)
+      {
+         Log("Scene[%d]: map = %d", i, gpGlobals->g.rgScene[i].wMapNum);
+      }
       i = gpGlobals->wNumScene - 1;
       gpResources->lpMap = PAL_LoadMap(gpGlobals->g.rgScene[i].wMapNum,
          fpMAP, fpGOP);

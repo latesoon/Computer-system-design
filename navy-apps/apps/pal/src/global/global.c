@@ -382,6 +382,7 @@ PAL_LoadGame(
    //
    // Get all the data from the saved game struct.
    //
+   printf("saved wnumscene %d\n",s.wNumScene);
    gpGlobals->viewport = PAL_XY(s.wViewportX, s.wViewportY);
    gpGlobals->wMaxPartyMemberIndex = s.nPartyMember;
    gpGlobals->wNumScene = s.wNumScene;
