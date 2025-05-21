@@ -35,7 +35,7 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
       r -= b,q |= 1;
   }
   if(sign) q = -q;
-  printf("a:%d b:%d q:%d",a,b,q);
+  printf("div: a:%d b:%d q:%d\n",a,b,q);
   return q;
 }
 
@@ -61,7 +61,7 @@ FLOAT f2F(float a) {
   uint32_t m = (b & 0x7FFFFF) | 0x800000;
   int32_t A = (e >= 0) ? (m << e) : (m >> (-e));
   if(sign) A = -A;
-  //printf("%d,%d\n",b,A);
+  printf("f2F: b:%d, a:%d\n",b,A);
   return A;
 }
 
