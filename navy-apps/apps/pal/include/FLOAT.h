@@ -8,8 +8,8 @@ typedef int FLOAT;
 static inline int F2int(FLOAT a) {
   //assert(0);
   //return 0;
-  //return (a>=0) ? ((a + (1 << 15) ) >> 16 ) : -((-a + ( 1 << 15 ) ) >> 16 );
-  return a >> 16;
+  return (a>=0) ? ((a + (1 << 15) ) >> 16 ) : -((-a + ( 1 << 15 ) ) >> 16 );
+  //return a >> 16;
 }
 
 static inline FLOAT int2F(int a) {
