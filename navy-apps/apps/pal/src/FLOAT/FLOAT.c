@@ -1,6 +1,7 @@
 #include "FLOAT.h"
 #include <stdint.h>
 #include <assert.h>
+#include <stdio.h>
 
 FLOAT F_mul_F(FLOAT a, FLOAT b) {
   //assert(0);
@@ -13,8 +14,9 @@ FLOAT F_mul_F(FLOAT a, FLOAT b) {
   int32_t a_lo = a & 0xFFFF;
   int32_t b_hi = b >> 16;
   int32_t b_lo = b & 0xFFFF;
-  int32_t r = ((a_hi * b_hi) << 16) + a_hi * b_lo + b_hi * a_lo + ((a_lo * b_lo)>> 16);
+  FLOAT r = ((a_hi * b_hi) << 16) + a_hi * b_lo + b_hi * a_lo + ((a_lo * b_lo)>> 16);
   if(sign) r = -r;
+  printf("%d %d %d",a,b,r);
   return r;
 }
 
