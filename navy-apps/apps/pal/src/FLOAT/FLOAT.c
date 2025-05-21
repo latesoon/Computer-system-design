@@ -78,8 +78,7 @@ FLOAT f2F(float a) {
 
   //assert(0);
   //return 0;
-  /*
-  uint32_t b;
+  /*uint32_t b;
   char* dest = (char*)(&b),*src = (char*)(&a);
   for(int i = 0; i < sizeof(uint32_t); i++)
     dest[i] = src[i];
