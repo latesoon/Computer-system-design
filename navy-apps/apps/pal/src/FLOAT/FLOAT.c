@@ -1,6 +1,7 @@
 #include "FLOAT.h"
 #include <stdint.h>
 #include <assert.h>
+#include <stdio.h>
 
 FLOAT F_mul_F(FLOAT a, FLOAT b) {
   //assert(0);
@@ -25,16 +26,18 @@ FLOAT f2F(float a) {
    * performing arithmetic operations on it directly?
    */
 
-  //assert(0);
+  assert(0);
   //return 0;
   uint32_t b;
-  memcpy(&b, &a, sizeof(float));
-` uint32_t sign = b >> 31;
+  char* dest = (char*)(&b),*src = (char*)(&a);
+  for(int i = 0; i < sizeof(float); i++)
+    dest[i] = src[i];
+  uint32_t sign = b >> 31;
   int32_t e = ((b >> 23) & 0xFF) - 127 + 16 - 23;
   uint32_t m = (b & 0x7FFFFF) | 0x800000;
   int32_t A = (e >= 0) ? (m << e) : (m >> (-e));
   if(sign) A = -A;
-  Log("%f,%d",a,A);
+  printf("%f,%d\n",a,A);
   return A;
 }
 
