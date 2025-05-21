@@ -12,7 +12,18 @@ FLOAT F_mul_F(FLOAT a, FLOAT b) {
 FLOAT F_div_F(FLOAT a, FLOAT b) {
   //assert(0);
   //return 0;
-  return ((((int64_t)a) << 16) / (int64_t)b);
+  //return ((((int64_t)a) << 16) / (int64_t)b);
+  uint32_t sign = ((a >> 31) & 0x1 ) ^ ((b >>31) & 0x1);
+  a = Fabs(a);
+  b = Fabs(b);
+  int32_t q = 0, r = a;
+  for(int i = 0; i < 16; i++){
+    r <<= 1,q <<= 1;
+    if(r >= b)
+      r -= b,q |= 1;
+  }
+  if(sign) q = -q;
+  return q;
 }
 
 FLOAT f2F(float a) {
