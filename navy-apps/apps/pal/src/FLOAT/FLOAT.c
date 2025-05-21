@@ -22,7 +22,6 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
   //assert(0);
   //return 0;
   //return ((((int64_t)a) << 16) / (int64_t)b);
-  /*
   uint32_t sign = ((a >> 31) & 0x1 ) ^ ((b >>31) & 0x1);
   a = Fabs(a);
   b = Fabs(b);
@@ -34,7 +33,7 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
   }
   if(sign) q = -q;
   return q;
-  */
+ /*
   const FLOAT zero = 0;
   if (b == zero) panic("Division by zero");
 
@@ -62,7 +61,7 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
     quotient = -quotient;
   }
 
-  return quotient;
+  return quotient;*/
 }
 
 FLOAT f2F(float a) {
@@ -78,7 +77,7 @@ FLOAT f2F(float a) {
 
   //assert(0);
   //return 0;
-  /*uint32_t b;
+  uint32_t b;
   char* dest = (char*)(&b),*src = (char*)(&a);
   for(int i = 0; i < sizeof(uint32_t); i++)
     dest[i] = src[i];
@@ -88,7 +87,8 @@ FLOAT f2F(float a) {
   int32_t A = (e >= 0) ? (m << e) : (m >> (-e));
   if(sign) A = -A;
   //printf("%d,%d\n",b,A);
-  return A;*/
+  return A;
+  /*
   union float_bits 
   {
     struct {
@@ -120,7 +120,7 @@ FLOAT f2F(float a) {
   }
 
   // 根据符号位返回结果
-  return fb.sgn ? -result : result;
+  return fb.sgn ? -result : result;*/
 }
 
 FLOAT Fabs(FLOAT a) {
