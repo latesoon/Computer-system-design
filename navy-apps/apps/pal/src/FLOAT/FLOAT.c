@@ -47,7 +47,7 @@ FLOAT f2F(float a) {
    * performing arithmetic operations on it directly?
    */
 
-  assert(0);
+  //assert(0);
   //return 0;
   uint32_t b;
   char* dest = (char*)(&b),*src = (char*)(&a);
