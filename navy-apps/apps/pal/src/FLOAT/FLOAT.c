@@ -34,6 +34,7 @@ FLOAT f2F(float a) {
   uint32_t m = (b & 0x7FFFFF) | 0x800000;
   int32_t A = (e >= 0) ? (m << e) : (m >> (-e));
   if(sign) A = -A;
+  Log("%f,%d",a,A);
   return A;
 }
 
