@@ -58,7 +58,7 @@ FLOAT f2F(float a) {
   uint32_t m = (b & 0x7FFFFF) | 0x800000;
   int32_t A = (e >= 0) ? (m << e) : (m >> (-e));
   if(sign) A = -A;
-  printf("%d,%d\n",b,A);
+  //printf("%d,%d\n",b,A);
   return A;
 }
 
