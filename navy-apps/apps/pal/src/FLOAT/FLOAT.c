@@ -16,7 +16,7 @@ FLOAT F_mul_F(FLOAT a, FLOAT b) {
   int32_t b_lo = b & 0xFFFF;
   FLOAT r = ((a_hi * b_hi) << 16) + a_hi * b_lo + b_hi * a_lo + ((a_lo * b_lo)>> 16);
   if(sign) r = -r;
-  printf("%d %d %d",a,b,r);
+  printf("%d %d %d\n",a,b,r);
   return r;
 }
 
