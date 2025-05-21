@@ -16,8 +16,8 @@ FLOAT F_mul_F(FLOAT a, FLOAT b) {
   int32_t b_lo = b & 0xFFFF;
   FLOAT r = ((a_hi * b_hi) << 16) + a_hi * b_lo + b_hi * a_lo + (((a_lo * b_lo)>> 16) & 0xFFFF);
   if(sign) r = -r;
-  printf("a:%d b:%d a_hi:%d a_lo:%d b_hi:%d b_lo:%d\n",a,b,a_hi,a_lo,b_hi,b_lo);
-  printf("sum1:%d sum2:%d sum3:%d sum4:%d sign:%d r:%d\n",(a_hi * b_hi) << 16,a_hi * b_lo,b_hi * a_lo,((a_lo * b_lo)>> 16) & 0xFFFF,sign,r);
+  //printf("a:%d b:%d a_hi:%d a_lo:%d b_hi:%d b_lo:%d\n",a,b,a_hi,a_lo,b_hi,b_lo);
+  //printf("sum1:%d sum2:%d sum3:%d sum4:%d sign:%d r:%d\n",(a_hi * b_hi) << 16,a_hi * b_lo,b_hi * a_lo,((a_lo * b_lo)>> 16) & 0xFFFF,sign,r);
   return r;
 }
 
@@ -35,6 +35,7 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
       r -= b,q |= 1;
   }
   if(sign) q = -q;
+  printf("a:%d b:%d q:%d",a,b,q);
   return q;
 }
 
