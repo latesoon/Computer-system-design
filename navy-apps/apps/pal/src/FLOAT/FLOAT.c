@@ -6,7 +6,17 @@
 FLOAT F_mul_F(FLOAT a, FLOAT b) {
   //assert(0);
   //return 0;
-  return (a * b) >> 16; 
+  //return (a * b) >> 16; 
+  uint32_t sign = ((a >> 31) & 0x1 ) ^ ((b >>31) & 0x1);
+  a = Fabs(a);
+  b = Fabs(b);
+  int32_t a_hi = a >> 16;
+  int32_t a_lo = a & 0xFFFF;
+  int32_t b_hi = b >> 16;
+  int32_t b_lo = b & 0xFFFF;
+  int32_t r = ((a_hi * b_hi) << 16) + a_hi * b_lo + b_hi * a_lo + ((a_lo * b_lo)>> 16);
+  if(sign) r = -r;
+  return r;
 }
 
 FLOAT F_div_F(FLOAT a, FLOAT b) {
