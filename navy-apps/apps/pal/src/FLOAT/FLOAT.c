@@ -51,7 +51,7 @@ FLOAT f2F(float a) {
   //return 0;
   uint32_t b;
   char* dest = (char*)(&b),*src = (char*)(&a);
-  for(int i = 0; i < sizeof(float); i++)
+  for(int i = 0; i < sizeof(uint32_t); i++)
     dest[i] = src[i];
   uint32_t sign = b >> 31;
   int32_t e = ((b >> 23) & 0xFF) - 127 + 16 - 23;
