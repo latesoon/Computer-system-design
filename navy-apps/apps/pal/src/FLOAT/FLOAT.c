@@ -28,7 +28,7 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
   uint32_t sign = ((a >> 31) & 0x1 ) ^ ((b >>31) & 0x1);
   a = Fabs(a);
   b = Fabs(b);
-  int32_t q = 0, r = a;
+  int32_t q = a / b, r = a % b;
   for(int i = 0; i < 16; i++){
     r <<= 1,q <<= 1;
     if(r >= b)
